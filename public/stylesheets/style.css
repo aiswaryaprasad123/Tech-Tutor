@@ -1,9 +1,10 @@
-body {
+.bodyindex {
   position: relative;
   background-image: url('https://cdn.pixabay.com/photo/2018/01/17/07/06/laptop-3087585_640.jpg'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
   background-size: 50%;
   background-position: center;
   height: 100vh;
+
 }
 .text-overlay {
   position: absolute;

@@ -3,12 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var db = require('./db.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+const connectDB = require('./db');
 var app = express();
-
+var fileUpload =require('express-fileupload')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -17,6 +17,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -26,6 +27,13 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// Connect to MongoDB
+db.connect( (err)=> {
+  if(err) console.log("connection error"+err)
+  else console.log("db connected successfully")
+  
+})
 
 // error handler
 app.use(function(err, req, res, next) {

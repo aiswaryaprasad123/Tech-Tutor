@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+</head>
+
+<body class="bodyindex" style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0;">
+    <div
+        style="max-width: 400px; margin: 50px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; margin-bottom: 20px;">Signup</h2>
+        <form id="signupForm" action="/signup" method="post" enctype="multipart/form-data">
+            <div style="margin-bottom: 20px;">
+                <label for="role" style="display: block; margin-bottom: 5px;">Role</label>
+                <select id="role" name="role" onchange="toggleFields()"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                    required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="user">User</option>
+                    <option value="creator">Creator</option>
+
+                </select>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="fullname" style="display: block; margin-bottom: 5px;">Full Name</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Enter your name"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                    required>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="email" style="display: block; margin-bottom: 5px;">Email address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                    required>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="password" style="display: block; margin-bottom: 5px;">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                    required>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="phone" style="display: block; margin-bottom: 5px;">Phone</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                    required>
+            </div>
+
+            <div id="designationField" style="margin-bottom: 20px; display: none;">
+                <label for="designation" style="display: block; margin-bottom: 5px;">Designation</label>
+                <input type="text" id="designation" name="designation" placeholder="Enter your designation"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            </div>
+            <div id="companyField" style="margin-bottom: 20px; display: none;">
+                <label for="company" style="display: block; margin-bottom: 5px;">Company Name</label>
+                <input type="text" id="company" name="company" placeholder="Enter your company name"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            </div>
+            <div id="jobproofField" style="margin-bottom: 20px; display: none;">
+                <label for="jobproof" style="display: block; margin-bottom: 5px;">Job Proof</label>
+                <input type="file" id="jobproof" name="jobproof" accept="application/pdf"
+                    style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            </div>
+
+            <button type="submit"
+                style="width: 100%; padding: 10px; background-color: #007bff; border: none; border-radius: 4px; color: #fff; font-size: 16px; cursor: pointer; transition: background-color 0.3s;">SignUp</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleFields() {
+            var role = document.getElementById('role').value;
+            var designationField = document.getElementById('designationField');
+            var companyField = document.getElementById('companyField');
+            var jobproofField = document.getElementById('jobproofField');
+
+            if (role === 'user') {
+                designationField.style.display = 'none';
+                companyField.style.display = 'none';
+                jobproofField.style.display = 'none';
+            } else {
+                designationField.style.display = 'block';
+                companyField.style.display = 'block';
+                jobproofField.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>
