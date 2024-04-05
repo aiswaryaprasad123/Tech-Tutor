@@ -1,0 +1,29 @@
+body {
+  position: relative;
+  background-image: url('https://cdn.pixabay.com/photo/2018/01/17/07/06/laptop-3087585_640.jpg'); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: 50%;
+  background-position: center;
+  height: 100vh;
+}
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  color: black;
+  text-align: left;
+  font-size: 50px;
+  font-weight: bold;
+  background-color: #dddddd;
+  white-space: nowrap; /* Ensures text doesn't wrap */
+  overflow: hidden; /* Hides overflowed text */
+  animation: appear 3s ease forwards; /* Animation named "appear" */
+}
+@keyframes appear {
+  from {
+    width: 0; /* Initially width is 0 */
+  }
+  to {
+    width: 50%; /* At the end of animation, width becomes 100% */
+  }
+}
