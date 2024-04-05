@@ -86,13 +86,13 @@ router.post('/login', function(req, res) {
       // Check the role of the user and redirect accordingly
       switch (user.role) {
         case 'creator':
-          res.redirect('/creatorHomePage');
+          res.redirect('/creatorHome');
           break;
         case 'user':
-          res.redirect('/userHomePage');
+          res.redirect('/userHome');
           break;
         case 'admin':
-          res.redirect('/adminHomePage');
+          res.redirect('/adminHome');
           break;
         default:
           res.redirect('/login'); // Redirect to login page if the role is not recognized
@@ -113,7 +113,7 @@ router.get('/adminHome', function(req, res, next) {
 router.get('/userHome', function(req, res, next) {
   res.render('user/home',{ title: 'Express' });
 });
-router.get('/creatorHomePage', function(req, res, next) {
+router.get('/creatorHome', function(req, res, next) {
   res.render('creator/home',{ title: 'Express' });
 });
 
