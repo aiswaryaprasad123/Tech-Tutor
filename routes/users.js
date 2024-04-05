@@ -11,9 +11,6 @@ router.get('/userhome', function(req, res, next) {
 router.get('/creatorhome', function(req, res, next) {
   res.render('creator/creatorhome', { title: 'Express' });
 });
-router.get('/adminhome', function(req, res, next) {
-  res.render('admin/adminhome', { title: 'Express' });
-});
 ;
 
 module.exports = router;
