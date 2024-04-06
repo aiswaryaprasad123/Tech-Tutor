@@ -1,1 +1,193 @@
-crtrr
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Tutor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Background image properties */
+            background-image: url('images/creatorbg (1).jpg'); /* Replace 'your-background-image.jpg' with your image path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .top-bar {
+            background-color: #0aff2f;
+            color: #fff;
+            padding: 1px 0;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .menu-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .card {
+    width: calc(33.33% - 20px);
+    background-color: rgba(255, 255, 255, 0.1); /* Adjust the last value (0.8) to control opacity */
+    border: 3px solid #028100;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+
+
+        .card:hover {
+            box-shadow: 0 0 106px rgb(77, 255, 0), 0 0 220px rgb(7, 255, 69);
+            /* Add light emission */
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        /* Anchor styles */
+        .card a {
+            text-decoration: none;
+            color: inherit; /* Inherit text color from parent */
+        }
+
+
+        #course-form {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 5px;
+            width: 200px;
+            height: 450px;
+
+            margin: 20px auto;
+        }
+
+        #course-form h2 {
+            text-align: center;
+        }
+
+        #course-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #course-form input[type="text"],
+        #course-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 2px solid #00f715;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #course-form input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #course-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="top-bar">
+        <h1><i>Tech-Tutor</i></h1>
+    </div>
+    <div class="container">
+        <div style="background-color: transparent;">
+            <p style="-webkit-text-fill-color: azure;"><b><i>Welcome creator...</i></b></p><br><br>
+        </div>
+        <div class="menu-options" >
+            <div class="card" id="add-course-card" >
+                    <h2 style="-webkit-text-fill-color: rgb(254, 254, 255);font-weight: bolder;"><i>ADD COURCE</i></h2>
+                    <p style="-webkit-text-fill-color: rgb(254, 254, 255);font-weight: bolder;">Create Your Cource And Make Some Earnings....</p>
+            </div>
+            <div id="course-form" style="display: none;">
+                <button class="close-btn" onclick="closeForm()">&times;</button>
+                <h2>Create Course</h2>
+                <form id="course-form-data">
+                    <label for="course-name">Course Name:</label><br>
+                    <input type="text" id="course-name" name="course-name"><br><br>
+                    <label for="duration">Duration:</label><br>
+                    <input type="text" id="duration" name="duration"><br><br>
+                    <label for="pricing">Pricing:</label><br>
+                    <select id="pricing" name="pricing">
+                        <option value="free">Free</option>
+                        <option value="100">$100</option>
+                        <option value="200">$200</option>
+                        <option value="300">$300</option>
+                        <option value="400">$400</option>
+                        <option value="500">$500</option>
+                    </select><br><br>
+                    <input type="submit" value="Create">
+                </form>
+            </div>
+            <div class="card">
+                <a href="">
+                    <h2  style="-webkit-text-fill-color: rgb(255, 255, 255);font-weight: bolder;"><i>Upload Cource Contents</i></h2>
+                    <p style="-webkit-text-fill-color: rgb(254, 254, 255);font-weight: bolder;">After cource creation upload your contents here...</p>
+                </a>
+            </div>
+            <div class="card">
+                <a href="">
+                    <h2  style="-webkit-text-fill-color: rgb(255, 255, 255);font-weight: bolder;"><i>My Subscribers And Earning</i></h2>
+                    <p style="-webkit-text-fill-color: rgb(254, 254, 255);font-weight: bolder;">Go check out your subscribers and earnings...</p>
+                </a>
+            </div>
+            <div class="card">
+                <a href="">
+                    <h2  style="-webkit-text-fill-color: rgb(255, 255, 255);font-weight: bolder;"><i>Messages</i></h2>
+                    <p style="-webkit-text-fill-color: rgb(254, 254, 255);font-weight: bolder;">Interact with users....</p>
+                </a>
+            </div>
+            <div class="card">
+                <a href="">
+                    <h2  style="-webkit-text-fill-color: rgb(255, 255, 255);font-weight: bolder;"><i>My profile</i></h2>
+                    
+                </a>
+            </div>
+            <div class="card">
+                <a href="option6.html">
+                    <h2  style="-webkit-text-fill-color: rgb(255, 255, 255);font-weight: bolder;"><i>Logout</i> </h2>
+               
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        // JavaScript to handle form popup
+        document.getElementById('add-course-card').addEventListener('click', function() {
+            document.getElementById('course-form').style.display = 'block';
+        });
+
+        function closeForm() {
+            document.getElementById('course-form').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
