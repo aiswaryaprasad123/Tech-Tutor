@@ -147,9 +147,10 @@ router.post('/create-course', (req, res) => {
   // Handle form submission to create a course
   const { coursename } = req.body;
   const {pricing} = req.body;
+  const {duration} = req.body;
   const userId = req.session.user._id; // Assuming you've stored userId in the session after login
 
-  db.get().collection('courses').insertOne({ name: coursename, creatorId: userId, pricing:pricing }, (err, result) => {
+  db.get().collection('courses').insertOne({ name: coursename, creatorId: userId, pricing:pricing,duration:duration }, (err, result) => {
       if (err) {
           console.error('Error creating course:', err);
           res.send('Error creating course');

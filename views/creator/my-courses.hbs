@@ -64,7 +64,7 @@
         }
 
         .content video {
-            width: 300px;
+            width: 400px;
             height: auto;
             margin-bottom: 10px;
             margin-left: 500px;
@@ -133,6 +133,8 @@
     {{#each courses}}
     <div class="card">
         <h1 style="color: #ffffff;">COURCE NAME :{{this.name}}</h1>
+        <P style="color: #ffffff;">{{this.duration}}</P>
+
         <form action="/delete-course/{{this._id}}" method="post">
             <button class="deletebtncource" type="submit">Delete Course</button>
         </form>
