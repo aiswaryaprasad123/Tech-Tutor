@@ -160,8 +160,6 @@ router.post('/create-course', (req, res) => {
   });
 });
 
-
-
 router.get('/created-courses', async (req, res, next) => {
   try {
     const userId = req.session.user._id;
@@ -195,10 +193,23 @@ router.post('/delete-course/:id', async (req, res) => {
   }
 });
 
+router.post('/edit-price/:courseId', async (req, res, next) => {
+  try {
+      const courseId = req.params.courseId;
+      const { pricing } = req.body;
 
+      // Update the price in the database
+      await db.get().collection('courses').updateOne(
+          { _id: new ObjectId(courseId) },
+          { $set: { pricing: pricing } }
+      );
 
-
-
+      res.redirect('/created-courses');
+  } catch (err) {
+      console.error('Error updating price:', err);
+      res.status(500).send('Error updating price');
+  }
+});
 
 router.post('/add-contents/:courseId', (req, res) => {
   const { title } = req.body;
@@ -242,7 +253,7 @@ router.post('/delete-content/:courseId/:contentId', async (req, res) => {
   }
 });
 
-router.get('/profile', function(req, res) {
+router.get('/creator-profile', function(req, res) {
   if (req.session.loggedIn) {
     const user=req.session.user
     res.render('creator/profile',{user});
@@ -261,15 +272,38 @@ router.get('/profile', function(req, res) {
 
 
 
-router.get('/adminHome', function(req, res, next) {
-  res.render('admin/home',{ title: 'Express' });
-});
+// USER ROUTES
 
 router.get('/userHome', function(req, res, next) {
   res.render('user/home',{ title: 'Express' });
 });
 
+router.get('/user-profile', function(req, res) {
+  if (req.session.loggedIn) {
+    const user=req.session.user
+    res.render('user/profile',{user});
+  } else {
+    // Redirect to login if user is not logged in
+    res.redirect('/login');
+  }
+});
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/adminHome', function(req, res, next) {
+  res.render('admin/home',{ title: 'Express' });
+});
 
 
 module.exports = router;

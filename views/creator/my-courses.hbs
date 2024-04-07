@@ -57,6 +57,52 @@
         .add-content-form button:hover {
             background-color: #0056b3;
         }
+        
+
+        .edit-price-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .edit-price-form h2 {
+            margin-top: 0;
+        }
+
+        .edit-price-form input[type="file"],
+        .edit-price-form input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .edit-price-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .edit-price-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-price-form button:hover {
+            background-color: #0056b3;
+        }
 
         .content img {
             width: 100px;
@@ -92,6 +138,7 @@
         .addbutton:hover {
             background-color: #0056b3;
         }
+
         .deletebtncource {
             display: inline-block;
             padding: 10px 20px;
@@ -107,6 +154,7 @@
         .deletebtncource:hover {
             background-color: #ea7575;
         }
+
         .deletebtncontent {
             display: inline-block;
             padding: 10px 20px;
@@ -127,14 +175,16 @@
 
 <body style="background-color: #000000;">
 
-        <h1 style="text-align: center; color: white; font-size: 39px; font-weight: bold;">MY COURSES</h1>
+    <h1 style="text-align: center; color: white; font-size: 39px; font-weight: bold;">MY COURSES</h1>
 
-    </div>    
+    </div>
     {{#each courses}}
     <div class="card">
         <h1 style="color: #ffffff;">COURCE NAME :{{this.name}}</h1>
-        <P style="color: #ffffff;">{{this.duration}}</P>
-
+        <P style="color: #ffffff;">Duration:{{this.duration}}</P>
+        <P style="color: #ffffff;">Pricing:{{this.pricing}}rs <button class="editbtn" type="button" onclick="showEditPriceForm('{{this._id}}')">Edit Price</button>
+        <br><br></P>
+        
         <form action="/delete-course/{{this._id}}" method="post">
             <button class="deletebtncource" type="submit">Delete Course</button>
         </form>
@@ -155,7 +205,8 @@
         {{/each}}
         <br><br>
         <a href="#" style="background-color: #007bff;border-radius: 5px;border: 5px solid rgb(0, 21, 255);color: #ffffff;
-            text-decoration: none;transition: background-color 0.3s ease;" class="add-content-button"data-course-id="{{this._id}}">Add Contents</a>
+            text-decoration: none;transition: background-color 0.3s ease;" class="add-content-button"
+            data-course-id="{{this._id}}">Add Contents</a>
     </div>
     {{/each}}
     <div id="popup-container"></div>
@@ -176,7 +227,7 @@
 
         function showAddContentForm(courseId) {
             const form = `
-                <div class="add-content-form">
+                <div   class="add-content-form">
                     <span class="close-button" onclick="closeForm()">&times;</span>
                     <h2>Add content</h2>
                     <form action="/add-contents/${courseId}" method="post" enctype="multipart/form-data">
@@ -191,12 +242,39 @@
             `;
             const popupContainer = document.getElementById('popup-container');
             popupContainer.innerHTML = form;
+
         }
 
         function closeForm() {
             const popupContainer = document.getElementById('popup-container');
             popupContainer.innerHTML = '';
         }
+
+
+        function showEditPriceForm(courseId) {
+    const form = `
+        <div class="edit-price-form">
+            <span class="close-button" onclick="closeForm()">&times;</span>
+            <h2>Edit Price</h2>
+            <form action="/edit-price/${courseId}" method="post">
+                <label for="pricing">Select Pricing:</label>
+                <select name="pricing" id="pricing" required>
+                    <option value="free">Free</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                </select><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    `;
+    const popupContainer = document.getElementById('popup-container');
+    popupContainer.innerHTML = form;
+}
+
+
     </script>
 </body>
 
