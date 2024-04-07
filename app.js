@@ -6,8 +6,16 @@ var logger = require('morgan');
 var db = require('./db.js')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const connectDB = require('./db');
 var app = express();
+var session = require('express-session'); 
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+
 var fileUpload =require('express-fileupload')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +35,8 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
 
 // Connect to MongoDB
 db.connect( (err)=> {
