@@ -287,6 +287,16 @@ router.get('/user-profile', function(req, res) {
     res.redirect('/login');
   }
 });
+router.get('/view-courses', async (req, res, next) => {
+  try {
+    const courses = await db.get().collection('courses').find().toArray();
+
+    res.render('user/view-courses', { courses });
+  } catch (err) {
+    console.error('Error fetching courses:', err);
+    res.status(500).send('Error fetching courses');
+  }
+});
 
 
 
