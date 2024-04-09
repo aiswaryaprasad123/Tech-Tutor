@@ -1,0 +1,28 @@
+<!-- views/my-courses.hbs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses</title>
+</head>
+<body>
+    <h1>My Courses</h1>
+    {{#if purchasedCourses}}
+        <ul>
+            {{#each purchasedCourses}}
+                <li>
+                    <h2>{{this.course.title}}</h2>
+                    <p>Duration: {{this.course.duration}}</p>
+                    <p>Pricing: {{this.course.pricing}}</p>
+                    <p>Name: {{this.course.name}}</p>
+                    <p>Purchase Date: {{this.purchase.timestamp}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>No courses purchased yet.</p>
+    {{/if}}
+</body>
+</html>

@@ -151,6 +151,8 @@
             <h2>{{name}}</h2>
             <p>Price: {{pricing}}</p>
             <p>Duration: {{duration}}</p>
+            <input type="hidden" class="course-id" value="{{_id}}">
+          
             <br><br>
             <button class="buy-now-btn">Buy Now</button>
         </div>
@@ -161,39 +163,45 @@
     <div class="popup-container" id="popup-container" style="display: none;">
         <!-- Popup Form -->
         <div class="popup-form">
-            <form id="payment-form">
-                <label for="amount-to-pay">Amount to be Paid:</label>
-                <input type="text" id="amount-to-pay" name="amount-to-pay" readonly>
+            <form id="payment-form" action="/purchase" method="post" enctype="multipart/form-data">
+                <label for="amount">Amount to be Paid:</label>
+                <input type="text" id="amount" name="amount" readonly>
                 <label for="card-details">Card Details:</label>
                 <input type="text" id="card-details" name="card-details">
                 <label for="cvv">CVV:</label>
                 <input type="text" id="cvv" name="cvv">
+                <input type="hidden" id="course-id" name="courseId">
+
                 <button type="submit">Pay</button>
             </form>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var buyNowButtons = document.querySelectorAll('.buy-now-btn');
-            var popupContainer = document.getElementById('popup-container');
-            var amountField = document.getElementById('amount-to-pay');
+       document.addEventListener('DOMContentLoaded', function () {
+    var buyNowButtons = document.querySelectorAll('.buy-now-btn');
+    var popupContainer = document.getElementById('popup-container');
+    var amountField = document.getElementById('amount');
+    var courseIdField = document.getElementById('course-id'); // Change the ID to match the HTML
 
-            buyNowButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var pricing = this.parentNode.querySelector('p').textContent.split(':')[1].trim();
-                    amountField.value = pricing;
-                    popupContainer.style.display = 'flex'; // Show the popup container
-                });
-            });
-
-            // Close the popup when clicking outside of it
-            popupContainer.addEventListener('click', function (event) {
-                if (event.target === popupContainer) {
-                    popupContainer.style.display = 'none'; // Hide the popup container
-                }
-            });
+    buyNowButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var pricing = this.parentNode.querySelector('p').textContent.split(':')[1].trim();
+            var courseId = this.parentNode.querySelector('.course-id').value; // Get the value of the hidden input
+            amountField.value = pricing;
+            courseIdField.value = courseId; // Set the value of course ID field
+            popupContainer.style.display = 'flex'; // Show the popup container
         });
+    });
+
+    // Close the popup when clicking outside of it
+    popupContainer.addEventListener('click', function (event) {
+        if (event.target === popupContainer) {
+            popupContainer.style.display = 'none'; // Hide the popup container
+        }
+    });
+});
+
     </script>
 </body>
 

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authHelper = require('../helpers/authHelper')
 var courceHelper = require('../helpers/courceHelper')
+const mongoose = require('mongoose');
 const db = require('../db.js'); // Importing db connection
 const { ObjectId } = require('mongodb');
 
@@ -272,6 +273,9 @@ router.get('/creator-profile', function(req, res) {
 
 
 
+
+
+
 // USER ROUTES
 
 router.get('/userHome', function(req, res, next) {
@@ -287,6 +291,7 @@ router.get('/user-profile', function(req, res) {
     res.redirect('/login');
   }
 });
+
 router.get('/view-courses', async (req, res, next) => {
   try {
     const courses = await db.get().collection('courses').find().toArray();
@@ -298,6 +303,83 @@ router.get('/view-courses', async (req, res, next) => {
   }
 });
 
+
+router.post('/purchase', verifylogin, function(req, res) {
+  // Extract data from the request body
+  const { amount, courseId } = req.body;
+  const userId = req.session.user._id; // Assuming userId is stored in session
+
+  // Validate courseId format
+  if (!mongoose.Types.ObjectId.isValid(courseId)) {
+      return res.status(400).json({ error: 'Invalid courseId' });
+  }
+
+  console.log('Course ID:', courseId);
+  console.log('Amount paid:', amount);
+  console.log('User ID:', userId);
+
+  // Now, you can save this purchase data into the database
+
+  db.get().collection('purchases').insertOne({
+      courseId: new ObjectId(courseId), // Convert courseId to ObjectId
+      amount: parseFloat(amount),
+      userId: new ObjectId(userId),
+      timestamp: new Date()
+  }, (err, result) => {
+      if (err) {
+          console.error('Error saving purchase:', err);
+          return res.status(500).json({ error: 'Error saving purchase' });
+      } else {
+          console.log('Purchase saved successfully');
+          return res.status(200).json({ message: 'Purchase successful' });
+      }
+  });
+});
+
+
+
+
+// Route to view purchased courses for the current logged-in user
+router.get('/purchased-courses', verifylogin, async (req, res) => {
+  try {
+    const userId = req.session.user._id;
+    console.log('sessionid',userId);
+    const userIdObject = new ObjectId(userId);
+    // Fetch the purchases made by the user
+    const purchases = await db.get().collection('purchases').find({ userId: userIdObject }).toArray();
+  
+    console.log('Purchases:', purchases);// Debug statement
+
+    // Initialize an empty array to store purchased courses
+    const purchasedCourses = [];
+
+    // Iterate through the purchases and fetch course details for each purchase
+    for (const purchase of purchases) {
+      const courseId = purchase.courseId;
+
+      // Fetch the course details using courseId
+      const courseDetails = await db.get().collection('courses').findOne({ _id: new ObjectId(courseId) });
+
+      console.log('Course details fetched successfully:', courseDetails); // Debug statement
+
+      if (courseDetails) {
+        // Push the course details along with purchase details into purchasedCourses array
+        purchasedCourses.push({
+          course: courseDetails,
+          purchase: purchase // Fixed typo here, change 'purchases' to 'purchase'
+        });
+      }
+    }
+
+    console.log('Purchased courses:', purchasedCourses); // Debug statement
+
+    // Render the view with purchased courses
+    res.render('user/purchased-courses', { purchasedCourses });
+  } catch (err) {
+    console.error('Error fetching purchased courses:', err);
+    res.status(500).send('Error fetching purchased courses');
+  }
+});
 
 
 
