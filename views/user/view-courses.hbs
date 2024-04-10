@@ -178,7 +178,7 @@
     </div>
 
     <script>
-       document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('DOMContentLoaded', function () {
     var buyNowButtons = document.querySelectorAll('.buy-now-btn');
     var popupContainer = document.getElementById('popup-container');
     var amountField = document.getElementById('amount');
@@ -200,7 +200,51 @@
             popupContainer.style.display = 'none'; // Hide the popup container
         }
     });
+
+    // Event listener for the "Pay" button
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Extract data from the form
+        var formData = new FormData(this);
+        var purchaseData = {};
+        formData.forEach(function(value, key){
+            purchaseData[key] = value;
+        });
+
+        // Send a POST request to the server to attempt the purchase
+        fetch('/purchase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(purchaseData)
+        })
+        .then(response => {
+            if (response.ok) {
+                // If purchase is successful, hide the popup container
+                popupContainer.style.display = 'none';
+                alert('Purchase successful');
+            } else {
+                // If an error occurred, check the response status
+                if (response.status === 400) {
+                    // If the course is already purchased, display the prompt
+                    alert('Course already purchased');
+                } else {
+                    // For other errors, display a generic error message
+                    alert('Error processing purchase');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error processing purchase:', error);
+            // Display a generic error message if an error occurred
+            alert('Error processing purchase');
+        });
+    });
 });
+
+
 
     </script>
 </body>

@@ -304,42 +304,52 @@ router.get('/view-courses', async (req, res, next) => {
 });
 
 
-router.post('/purchase', verifylogin, function(req, res) {
-  // Extract data from the request body
-  const { amount, courseId } = req.body;
-  const userId = req.session.user._id; // Assuming userId is stored in session
+router.post('/purchase', verifylogin, async function(req, res) {
+  try {
+      // Extract data from the request body
+      const { amount, courseId } = req.body;
+      const userId = req.session.user._id; // Assuming userId is stored in session
 
-  // Validate courseId format
-  if (!mongoose.Types.ObjectId.isValid(courseId)) {
-      return res.status(400).json({ error: 'Invalid courseId' });
-  }
-
-  console.log('Course ID:', courseId);
-  console.log('Amount paid:', amount);
-  console.log('User ID:', userId);
-
-  // Now, you can save this purchase data into the database
-
-  db.get().collection('purchases').insertOne({
-      courseId: new ObjectId(courseId), // Convert courseId to ObjectId
-      amount: parseFloat(amount),
-      userId: new ObjectId(userId),
-      timestamp: new Date()
-  }, (err, result) => {
-      if (err) {
-          console.error('Error saving purchase:', err);
-          return res.status(500).json({ error: 'Error saving purchase' });
-      } else {
-          console.log('Purchase saved successfully');
-          return res.status(200).json({ message: 'Purchase successful' });
+      // Validate courseId format
+      if (!mongoose.Types.ObjectId.isValid(courseId)) {
+          return res.status(400).json({ error: 'Invalid courseId' });
       }
-  });
+
+      console.log('Course ID:', courseId);
+      console.log('Amount paid:', amount);
+      console.log('User ID:', userId);
+
+      // Check if the user has already purchased the course
+      const existingPurchase = await db.get().collection('purchases').findOne({
+          userId: new ObjectId(userId),
+          courseId: new ObjectId(courseId)
+      });
+
+      if (existingPurchase) {
+          // If the user has already purchased the course, send a message indicating so
+          return res.status(400).json({ error: 'Course already purchased' });
+      }
+
+      // Proceed with the purchase if the user hasn't already purchased the course
+
+      // Save the purchase data into the database
+      await db.get().collection('purchases').insertOne({
+          courseId: new ObjectId(courseId),
+          amount: parseFloat(amount),
+          userId: new ObjectId(userId),
+          timestamp: new Date()
+      });
+
+      console.log('Purchase saved successfully');
+      return res.status(200).json({ message: 'Purchase successful' });
+  } catch (err) {
+      console.error('Error processing purchase:', err);
+      return res.status(500).json({ error: 'Error processing purchase' });
+  }
 });
 
 
 
-
-// Route to view purchased courses for the current logged-in user
 router.get('/purchased-courses', verifylogin, async (req, res) => {
   try {
     const userId = req.session.user._id;
@@ -363,10 +373,16 @@ router.get('/purchased-courses', verifylogin, async (req, res) => {
       console.log('Course details fetched successfully:', courseDetails); // Debug statement
 
       if (courseDetails) {
-        // Push the course details along with purchase details into purchasedCourses array
+        // Fetch contents related to the course
+        const contents = await db.get().collection('contents').find({ courseId: new ObjectId(courseId) }).toArray();
+
+        console.log('Contents fetched successfully:', contents); // Debug statement
+
+        // Push the course details along with purchase details and contents into purchasedCourses array
         purchasedCourses.push({
           course: courseDetails,
-          purchase: purchase // Fixed typo here, change 'purchases' to 'purchase'
+          purchase: purchase,
+          contents: contents
         });
       }
     }
